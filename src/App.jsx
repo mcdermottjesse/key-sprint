@@ -8,7 +8,9 @@ export default function App() {
   const [errorIndexes, setErrorIndexes] = useState([]);
   const [wordErrorArray, setWordErrorArray] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
-  const [sentence, setSentence] = useState("type anything key only keyboard ");
+  const [sentence, setSentence] = useState(
+    "type anything key only keyboard as this will determine how many bugs are in this code more text to see all of this stuff on a new line  "
+  );
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
 
@@ -103,8 +105,10 @@ export default function App() {
       setAllWordCount((prevAllWordCount) => prevAllWordCount - 1);
     }
 
+    console.log("currentWordinError", currentWordInError);
+
     if (currentLetter === " ") {
-      setTrackKeyIndex(currentWord.length - currentWordInError.length + 1);
+      setTrackKeyIndex(currentWord.length - currentWordInError?.length + 1);
     }
 
     if (nextLetterIndex - 1 === lastErrorIndex) {
@@ -113,6 +117,15 @@ export default function App() {
         prevWordErrorArray.slice(0, -1)
       );
       setErrorCount((prevErrorCount) => prevErrorCount - 1);
+
+      // if (currentLetter === " ") {
+      //   setSentence(
+      //     (prevSentence) =>
+      //       prevSentence.slice(0, nextLetterIndex - 1) +
+      //       prevSentence.slice(nextLetterIndex)
+      //   );
+      // }
+
       return;
     }
 
@@ -219,8 +232,8 @@ export default function App() {
     return wordErrorArray.filter((element) => element !== undefined);
   }
   return (
-    <>
-      <div>
+    <div className="page">
+      <div className="words-style">
         {sentence.split("").map((letter, index) => {
           const isError = errorIndexes.includes(index);
           const isSpaceError = spaceErrorIndexes.includes(index);
@@ -233,7 +246,7 @@ export default function App() {
                   ? isError
                     ? "error-highlight"
                     : "success-highlight"
-                  : "other"
+                  : "neutral-highlight"
               }
             >
               {(isSpaceError && typedCharacter) || letter}
@@ -241,7 +254,7 @@ export default function App() {
           );
         })}
       </div>
-      <div>{correctWordCount}</div>
-    </>
+      <div className="word-counter">{correctWordCount}</div>
+    </div>
   );
 }
