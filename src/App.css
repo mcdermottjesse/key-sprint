@@ -1,7 +1,36 @@
+html,
+body {
+  margin: 0;
+}
+
+.page {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  padding: 1em;
+  background-color: #6f88b3;
+}
+
 .success-highlight {
   color: green;
 }
 
 .error-highlight {
-  color: red
+  color: red;
+}
+
+.neutral-highlight {
+  color: aliceblue;
+}
+
+.words-style {
+  font-size: 3em;
+}
+
+.word-counter {
+  margin-top: 1em;
+  color: aliceblue;
+  font-size: 2em;
 }
