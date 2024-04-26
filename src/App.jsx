@@ -9,7 +9,7 @@ export default function App() {
   const [wordErrorArray, setWordErrorArray] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
   const [sentence, setSentence] = useState(
-    "type anything key only keyboard as this will determine how many bugs are in this code more text to see all of this stuff on a new line  "
+    "Morbi tempor tincidunt ipsum, in venenatis sapien dictum eu. Phasellus tincidunt imperdiet vestibulum. Aliquam lacus magna, efficitur et laoreet id, porta vitae nibh. Aenean tincidunt, purus nec pulvinar tempus, arcu quam posuere dolor, eget dapibus dolor magna in sapien. Aenean eu velit.  "
   );
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
