@@ -1,6 +1,6 @@
 # Key Sprint
 
-Typing speed test.
+WIP Typing speed test.
 
 # React + Vite
 
