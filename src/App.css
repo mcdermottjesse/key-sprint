@@ -14,11 +14,11 @@ body {
 }
 
 .success-highlight {
-  color: green;
+  color: pink;
 }
 
 .error-highlight {
-  color: red;
+  color: yellow;
 }
 
 .neutral-highlight {
