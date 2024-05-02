@@ -8,10 +8,11 @@ export default function App() {
   const [wordErrorArray, setWordErrorArray] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
   const [sentence, setSentence] = useState(
-    "the curious cat quietly explores the mysterious garden sniffing at every flower and chasing butterflies in the warm sunlight  "
+    "the curious cat quietly explores the mysterious garden at every flower and chasing butterflies in the warm sunlight  "
   );
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
+  const [trackKeyCount, setTrackKeyCount] = useState(1);
 
   const nextLetterIndex = typedKey.length;
   const currentLetter = sentence[nextLetterIndex];
@@ -19,74 +20,84 @@ export default function App() {
   const wordArray = sentence.split(" ").filter(Boolean); // Removes empty strings from array.
   const previousLetter = sentence[nextLetterIndex - 1];
   const currentWord = wordArray[allWordCount];
+  const noErrorsInCurrentWord =
+    !filterUndefinedElements(wordErrorArray).includes(currentWord);
 
   useEffect(() => {
-    const handleKeyPress = (event) => {
-      // Handle Shift and Tab. Display message if caps lock.
-
-      if (currentLetter === " " && event.key === " ") {
-        endOfWord();
-      }
-      if (event.key === currentLetter) {
-        // Counts the correctly typed words.
-        handleCorrectKey(currentLetter, wordArray, currentWord);
-      } else if (event.key === "Backspace") {
-        handleBackspace(
-          nextLetterIndex,
-          lastErrorIndex,
-          previousLetter,
-          currentWord,
-          currentLetter
-        );
-      } else if (currentLetter === " " && event.key !== " ") {
-        // If a letter is typed instead of a space, display the letter.
-        handleSpaceError(event.key, nextLetterIndex, currentWord);
-      } else {
-        handleIncorrectLetter(currentLetter, nextLetterIndex, currentWord);
-      }
-    };
-
     document.addEventListener("keydown", handleKeyPress);
 
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [typedKey, correctWordCount, trackKeyIndex, allWordCount]);
+  }, [typedKey, correctWordCount, trackKeyIndex, allWordCount, trackKeyCount]);
 
-  function endOfWord() {
+  const handleKeyPress = (event) => {
+    // Handle Shift and Tab. Display message if caps lock.
+
+    if (currentLetter === " " && event.key === " ") {
+      endOfWord();
+    }
+    if (event.key === currentLetter) {
+      // Counts the correctly typed words.
+      handleCorrectKey(currentLetter, wordArray);
+    } else if (event.key === "Backspace") {
+      handleBackspace(
+        nextLetterIndex,
+        lastErrorIndex,
+        previousLetter,
+        currentWord,
+        currentLetter
+      );
+    } else if (currentLetter === " " && event.key !== " ") {
+      // If a letter is typed instead of a space, display the letter.
+      handleSpaceError(event.key, nextLetterIndex, currentWord);
+    } else {
+      handleIncorrectLetter(currentLetter, nextLetterIndex, currentWord);
+    }
+  };
+
+  const endOfWord = () => {
     setAllWordCount((prevAllWordCount) => prevAllWordCount + 1);
+    setTrackKeyCount(trackKeyIndex);
     setTrackKeyIndex(0);
-  }
+  };
 
-  function handleCorrectKey(currentLetter, wordArray, currentWord) {
+  const handleCorrectKey = (currentLetter, wordArray) => {
     setTypedKey((prevTypedKey) => prevTypedKey + currentLetter);
+
+    console.log("trackKeyIndex", trackKeyIndex);
+    console.log("currentWord.length", currentWord.length);
+    console.log("trackKeyCount", trackKeyCount);
+    console.log("correctWordCount", correctWordCount);
 
     setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex + 1);
 
-    if (
-      currentLetter !== " " &&
-      !filterUndefinedElements(wordErrorArray).includes(currentWord)
-    ) {
-      const updatedArray = wordArray.filter(
+    if (currentLetter !== " " && noErrorsInCurrentWord) {
+      const wordArrayWithoutErrors = wordArray.filter(
         (word) => !wordErrorArray.includes(word)
       );
 
-      const correctCurrentWord = updatedArray[correctWordCount];
+      // correctCurrentWOrd causes a bug where if a letter appears more than
+      // once and is spelt incorrectly the correctCurrentWord ends up being the next word.
+      const correctCurrentWord = wordArrayWithoutErrors[correctWordCount];
+      console.log("correctCurrentWord", correctCurrentWord);
 
       if (
         filterUndefinedElements(wordErrorArray).length > 0 &&
         correctCurrentWord.length === trackKeyIndex
       ) {
+        console.log("FIRST");
         setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount + 1);
       }
       if (
         filterUndefinedElements(wordErrorArray).length === 0 &&
         correctCurrentWord.length === trackKeyIndex
       ) {
+        console.log("SECOND");
         setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount + 1);
       }
     }
-  }
+  };
 
   function handleBackspace(
     nextLetterIndex,
@@ -97,8 +108,18 @@ export default function App() {
   ) {
     setTypedKey((prevTypedKey) => prevTypedKey.slice(0, -1));
 
-    if (currentLetter === " ") {
-      setTrackKeyIndex(currentWord.length);
+    console.log("trackKeyIndex", trackKeyIndex);
+    console.log("currentWord.length", currentWord.length);
+    console.log("previousLetter", previousLetter);
+    console.log("currentLetter", currentLetter);
+
+    console.log("trackKeyCount", trackKeyCount);
+
+    // Ensure trackKeyIndex does not go below one.
+    setTrackKeyIndex((prevTrackKeyIndex) => Math.max(1, prevTrackKeyIndex - 1));
+
+    if (trackKeyIndex === 1 && previousLetter !== undefined) {
+      setTrackKeyIndex(trackKeyCount);
     }
 
     if (nextLetterIndex - 1 === lastErrorIndex) {
@@ -107,14 +128,15 @@ export default function App() {
         prevWordErrorArray.slice(0, -1)
       );
 
-      if (currentLetter === " ") {
-        if (currentWordInError(wordErrorArray).length === 1) {
+      if (trackKeyIndex > currentWord.length) {
+        if (
+          previousLetter === " " &&
+          currentWordInError(wordErrorArray).length === 1
+        ) {
           setCorrectWordCount(
             (prevCorrectWordCount) => prevCorrectWordCount + 1
           );
         }
-      } else {
-        setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex - 1);
       }
 
       if (previousLetter === " ") {
@@ -130,22 +152,20 @@ export default function App() {
 
     if (previousLetter === " ") {
       setAllWordCount((prevAllWordCount) => prevAllWordCount - 1);
+      // Ensure the trackKeyCount applies to the current word.
+      setTrackKeyCount(currentWord.length + 1);
     }
 
-    if (
-      currentLetter === " " &&
-      !filterUndefinedElements(wordErrorArray).includes(currentWord)
-    ) {
+    if (currentLetter === " " && noErrorsInCurrentWord) {
       setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount - 1);
-    }
-
-    if (trackKeyIndex > 1 && currentLetter !== " ") {
-      setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex - 1);
     }
   }
 
   function handleSpaceError(incorrectTypedKey, nextLetterIndex, currentWord) {
     setTypedKey((prevTypedKey) => prevTypedKey + incorrectTypedKey);
+
+    console.log("trackKeyIndex", trackKeyIndex);
+    console.log("currentWord.length", currentWord.length);
 
     const updatedSentence =
       sentence.slice(0, nextLetterIndex) +
@@ -171,6 +191,8 @@ export default function App() {
       setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount - 1);
     }
 
+    setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex + 1);
+
     setWordErrorArray((prevWordErrorArray) => [
       ...prevWordErrorArray,
       currentWord,
@@ -184,8 +206,12 @@ export default function App() {
       nextLetterIndex,
     ]);
 
+    console.log("trackKeyIndex", trackKeyIndex);
+    console.log("currentWord.length", currentWord.length);
+
     setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex + 1);
 
+    // Set the wordErrorArray to contain all the incorrect spelt words.
     setWordErrorArray((prevWordErrorArray) => [
       ...prevWordErrorArray,
       filterUndefinedElements(wordErrorArray).length === 0 ||
@@ -197,11 +223,12 @@ export default function App() {
     ]);
   }
 
+  // Remove undefined values from wordErrorArray.
   function filterUndefinedElements(wordErrorArray) {
     return wordErrorArray.filter((element) => element !== undefined);
   }
 
-  // Return the wordErrorArray just with the current word if it has incorrect letter/s.
+  // Return the wordErrorArray just with the current word if it is spelt incorrectly.
   function currentWordInError(wordErrorArray) {
     return filterUndefinedElements(wordErrorArray).filter(
       (wordError) => wordError === currentWord
