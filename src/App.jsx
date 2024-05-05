@@ -9,7 +9,7 @@ export default function App() {
   const [wordErrorArray, setWordErrorArray] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
   const [sentence, setSentence] = useState(
-    "the curious cat quietly explores the mysterious garden at every flower and chasing butterflies in the warm sunlight  "
+    "the curious cat quietly explores the mysterious garden at every flower and chasing butterflies in the warm sunlight   "
   );
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
@@ -187,28 +187,34 @@ export default function App() {
 
   return (
     <div className="page">
-      <div className="words-style">
-        {sentence.split("").map((letter, index) => {
-          const isError = errorIndexes.includes(index);
-          const isSpaceError = spaceErrorIndexes.includes(index);
-          const typedCharacter = typedKey.charAt(index);
-          return (
-            <span
-              key={index}
-              className={
-                index < typedKey.length
-                  ? isError
-                    ? "error-highlight"
-                    : "success-highlight"
-                  : "neutral-highlight"
-              }
-            >
-              {(isSpaceError && typedCharacter) || letter}
-            </span>
-          );
-        })}
+      <div className="logo">
+        <img className="logo-icon" src="/keyboard.svg" alt="Keyboard" />
+        <div className="logo-text">Key Sprint</div>
       </div>
-      <div className="word-counter">{correctWordCount}</div>
+      <div className="main-text">
+        <div className="words-style">
+          {sentence.split("").map((letter, index) => {
+            const isError = errorIndexes.includes(index);
+            const isSpaceError = spaceErrorIndexes.includes(index);
+            const typedCharacter = typedKey.charAt(index);
+            return (
+              <span
+                key={index}
+                className={
+                  index < typedKey.length
+                    ? isError
+                      ? "error-highlight"
+                      : "success-highlight"
+                    : "neutral-highlight"
+                }
+              >
+                {(isSpaceError && typedCharacter) || letter}
+              </span>
+            );
+          })}
+        </div>
+        <div className="word-counter">{correctWordCount}</div>
+      </div>
     </div>
   );
 }
