@@ -9,13 +9,17 @@ body {
   height: 100vh;
 }
 
-.main-text {
-  text-align: center;
+.text-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 65%;
   padding: 0 1em;
-  height: 80%;
+}
+
+.main-text {
+  text-align: center;
+  font-size: 3em;
 }
 
 .success-highlight {
@@ -30,11 +34,8 @@ body {
   color: aliceblue;
 }
 
-.words-style {
-  font-size: 3em;
-}
-
 .word-counter {
+  text-align: center;
   margin-top: 1em;
   color: aliceblue;
   font-size: 2em;
@@ -59,4 +60,11 @@ body {
   font-size: 3em;
   font-weight: bold;
   font-style: italic;
+}
+
+.timer {
+  font-size: 1.5em;
+  color: darkslategrey;
+  margin-left: 3em;
+  text-align: left;
 }
