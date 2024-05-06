@@ -177,16 +177,21 @@ export default function App() {
         <img className="logo-icon" src="/keyboard.svg" alt="Keyboard" />
         <div className="logo-text">Key Sprint</div>
       </div>
-      <div className="text-container">
-        <Timer handleShowWordCount={handleShowWordCount} />
-        <Sentence
-          sentence={sentence}
-          errorIndexes={errorIndexes}
-          spaceErrorIndexes={spaceErrorIndexes}
-          typedKey={typedKey}
-        />
-        <WordCount showWordCount={showWordCount} count={correctWordCount} />
-      </div>
+      {!showWordCount && (
+        <div className="text-container">
+          <Timer
+            handleShowWordCount={handleShowWordCount}
+            trackKeyIndex={trackKeyIndex}
+          />
+          <Sentence
+            sentence={sentence}
+            errorIndexes={errorIndexes}
+            spaceErrorIndexes={spaceErrorIndexes}
+            typedKey={typedKey}
+          />
+        </div>
+      )}
+      <WordCount showWordCount={showWordCount} count={correctWordCount} />
     </div>
   );
 }
