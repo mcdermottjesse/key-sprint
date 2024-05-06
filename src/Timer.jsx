@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 
 export default function Timer({ handleShowWordCount }) {
   const [countDown, setCountdown] = useState(30);
+  const [showTimer, setShowTimer] = useState(false);
 
   useEffect(() => {
+    document.addEventListener("keydown", handleFirstKeyPress);
+
     const timer = setTimeout(() => {
-      setCountdown((prevCountDown) => prevCountDown - 1);
+      setCountdown((prevCountDown) => Math.max(0, prevCountDown - 1));
     }, 1000);
 
     if (countDown <= 0) {
@@ -13,9 +16,14 @@ export default function Timer({ handleShowWordCount }) {
     }
 
     return () => {
+      document.addEventListener("keydown", handleFirstKeyPress);
       clearTimeout(timer);
     };
   }, [countDown]);
 
-  return <div className="timer">{countDown >= 0 && countDown}</div>;
+  const handleFirstKeyPress = () => {
+    setShowTimer(true);
+  };
+
+  return <div className="timer">{showTimer && countDown}</div>;
 }
