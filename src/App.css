@@ -9,13 +9,16 @@ body {
   height: 100vh;
 }
 
-.main-text {
-  text-align: center;
+.text-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 1em;
-  height: 80%;
+  height: 65%;
+  padding: 0 3em;
+}
+
+.main-text {
+  font-size: 3em;
 }
 
 .success-highlight {
@@ -30,13 +33,24 @@ body {
   color: aliceblue;
 }
 
-.words-style {
-  font-size: 3em;
+.popup {
+  box-shadow: 0 10px 10px rgba(1, 1, 1, 1);
+  background-color: pink;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
 }
 
 .word-counter {
+  text-align: center;
   margin-top: 1em;
-  color: aliceblue;
+  color: #6f88b3;
   font-size: 2em;
 }
 
@@ -59,4 +73,10 @@ body {
   font-size: 3em;
   font-weight: bold;
   font-style: italic;
+}
+
+.timer {
+  font-size: 1.5em;
+  color: aliceblue;
+  text-align: left;
 }

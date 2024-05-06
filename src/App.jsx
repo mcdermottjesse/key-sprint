@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import Timer from "./Timer";
+import WordCount from "./WordCount";
+import Sentence from "./Sentence";
 
 export default function App() {
   const [typedKey, setTypedKey] = useState("");
@@ -13,6 +16,7 @@ export default function App() {
   const [allWordCount, setAllWordCount] = useState(0);
   const [trackKeyCount, setTrackKeyCount] = useState([0]);
   const [wordErrorIndex, setWordErrorIndex] = useState([]);
+  const [showWordCount, setShowWordCount] = useState(false);
 
   const nextLetterIndex = typedKey.length;
   const currentLetter = sentence[nextLetterIndex];
@@ -163,36 +167,31 @@ export default function App() {
     setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex + 1);
   };
 
+  const handleShowWordCount = () => {
+    setShowWordCount(true);
+  };
+
   return (
     <div className="page">
       <div className="logo">
         <img className="logo-icon" src="/keyboard.svg" alt="Keyboard" />
         <div className="logo-text">Key Sprint</div>
       </div>
-      <div className="main-text">
-        <div className="words-style">
-          {sentence.split("").map((letter, index) => {
-            const isError = errorIndexes.includes(index);
-            const isSpaceError = spaceErrorIndexes.includes(index);
-            const typedCharacter = typedKey.charAt(index);
-            return (
-              <span
-                key={index}
-                className={
-                  index < typedKey.length
-                    ? isError
-                      ? "error-highlight"
-                      : "success-highlight"
-                    : "neutral-highlight"
-                }
-              >
-                {(isSpaceError && typedCharacter) || letter}
-              </span>
-            );
-          })}
+      {!showWordCount && (
+        <div className="text-container">
+          <Timer
+            handleShowWordCount={handleShowWordCount}
+            trackKeyIndex={trackKeyIndex}
+          />
+          <Sentence
+            sentence={sentence}
+            errorIndexes={errorIndexes}
+            spaceErrorIndexes={spaceErrorIndexes}
+            typedKey={typedKey}
+          />
         </div>
-        <div className="word-counter">{correctWordCount}</div>
-      </div>
+      )}
+      <WordCount showWordCount={showWordCount} count={correctWordCount} />
     </div>
   );
 }
