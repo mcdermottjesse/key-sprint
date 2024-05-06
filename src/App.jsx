@@ -16,7 +16,7 @@ export default function App() {
   const [allWordCount, setAllWordCount] = useState(0);
   const [trackKeyCount, setTrackKeyCount] = useState([0]);
   const [wordErrorIndex, setWordErrorIndex] = useState([]);
-  const [showWordCount, setShowWordCount] = useState(false);
+  const [endOfTest, setEndOfTest] = useState(false);
 
   const nextLetterIndex = typedKey.length;
   const currentLetter = sentence[nextLetterIndex];
@@ -27,12 +27,15 @@ export default function App() {
   const noErrorInWord = !wordErrorIndex.includes(allWordCount);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyPress);
+    // Prevent further typing when the test ends.
+    if (!endOfTest) {
+      document.addEventListener("keydown", handleKeyPress);
+    }
 
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [trackKeyIndex]);
+  }, [trackKeyIndex, endOfTest]);
 
   const handleKeyPress = (event) => {
     // Handle Shift and Tab. Display message if caps lock.
@@ -167,8 +170,8 @@ export default function App() {
     setTrackKeyIndex((prevTrackKeyIndex) => prevTrackKeyIndex + 1);
   };
 
-  const handleShowWordCount = () => {
-    setShowWordCount(true);
+  const handleEndOfTest = () => {
+    setEndOfTest(true);
   };
 
   return (
@@ -177,12 +180,9 @@ export default function App() {
         <img className="logo-icon" src="/keyboard.svg" alt="Keyboard" />
         <div className="logo-text">Key Sprint</div>
       </div>
-      {!showWordCount && (
+      {!endOfTest ? (
         <div className="text-container">
-          <Timer
-            handleShowWordCount={handleShowWordCount}
-            trackKeyIndex={trackKeyIndex}
-          />
+          <Timer handleEndOfTest={handleEndOfTest} />
           <Sentence
             sentence={sentence}
             errorIndexes={errorIndexes}
@@ -190,8 +190,9 @@ export default function App() {
             typedKey={typedKey}
           />
         </div>
+      ) : (
+        <WordCount count={correctWordCount} />
       )}
-      <WordCount showWordCount={showWordCount} count={correctWordCount} />
     </div>
   );
 }
