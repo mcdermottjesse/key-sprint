@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Timer({ handleShowWordCount }) {
+export default function Timer({ handleShowWordCount, trackKeyIndex }) {
   const [countDown, setCountdown] = useState(30);
   const [showTimer, setShowTimer] = useState(false);
 
@@ -11,7 +11,7 @@ export default function Timer({ handleShowWordCount }) {
       setCountdown((prevCountDown) => Math.max(0, prevCountDown - 1));
     }, 1000);
 
-    if (countDown <= 0) {
+    if (countDown === 0) {
       handleShowWordCount();
     }
 
@@ -25,5 +25,5 @@ export default function Timer({ handleShowWordCount }) {
     setShowTimer(true);
   };
 
-  return <div className="timer">{showTimer && countDown}</div>;
+  return showTimer && <div className="timer">{countDown}</div>;
 }

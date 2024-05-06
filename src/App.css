@@ -14,11 +14,10 @@ body {
   flex-direction: column;
   justify-content: center;
   height: 65%;
-  padding: 0 1em;
+  padding: 0 3em;
 }
 
 .main-text {
-  text-align: center;
   font-size: 3em;
 }
 
@@ -34,10 +33,24 @@ body {
   color: aliceblue;
 }
 
+.popup {
+  box-shadow: 0 10px 10px rgba(1, 1, 1, 1);
+  background-color: pink;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+}
+
 .word-counter {
   text-align: center;
   margin-top: 1em;
-  color: aliceblue;
+  color: #6f88b3;
   font-size: 2em;
 }
 
@@ -64,7 +77,6 @@ body {
 
 .timer {
   font-size: 1.5em;
-  color: darkslategrey;
-  margin-left: 3em;
+  color: aliceblue;
   text-align: left;
 }
