@@ -1,29 +1,37 @@
 import React, { useEffect, useState } from "react";
 
-export default function Timer({ handleShowWordCount, trackKeyIndex }) {
+export default function Timer({ handleEndOfTest }) {
   const [countDown, setCountdown] = useState(30);
-  const [showTimer, setShowTimer] = useState(false);
+  const [startTimer, setStartTimer] = useState(false);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleFirstKeyPress);
+    let timer;
 
-    const timer = setTimeout(() => {
-      setCountdown((prevCountDown) => Math.max(0, prevCountDown - 1));
-    }, 1000);
+    if (startTimer) {
+      timer = setTimeout(() => {
+        setCountdown((prevCountDown) => Math.max(0, prevCountDown - 1));
+      }, 1000);
+    } else {
+      document.addEventListener("keydown", handleFirstKeyPress);
+    }
 
     if (countDown === 0) {
-      handleShowWordCount();
+      handleEndOfTest();
     }
 
     return () => {
-      document.addEventListener("keydown", handleFirstKeyPress);
       clearTimeout(timer);
+      // As the event listener is added conditionally this is not neccessary,
+      // however still good practice to remove the listener.
+      if (!startTimer) {
+        document.removeEventListener("keydown", handleFirstKeyPress);
+      }
     };
-  }, [countDown]);
+  }, [countDown, startTimer]);
 
   const handleFirstKeyPress = () => {
-    setShowTimer(true);
+    setStartTimer(true);
   };
 
-  return showTimer && <div className="timer">{countDown}</div>;
+  return <div className="timer">{countDown}</div>;
 }
