@@ -174,10 +174,23 @@ export default function App() {
     setEndOfTest(true);
   };
 
+  const newTest = () => {
+    setTypedKey("");
+    setTrackKeyIndex(1);
+    setErrorIndexes([]);
+    setSpaceErrorIndexes([]);
+    setSentence("here is a new sentence to get started on ");
+    setCorrectWordCount(0);
+    setAllWordCount(0);
+    setTrackKeyCount([0]);
+    setWordErrorIndex([]);
+    setEndOfTest(false);
+  };
+
   return (
     <div className="page">
       <div className="logo">
-        <img className="logo-icon" src="/keyboard.svg" alt="Keyboard" />
+        <img className="logo-icon" src="/keyboard.svg" alt="keyboard" />
         <div className="logo-text">Key Sprint</div>
       </div>
       {!endOfTest ? (
@@ -191,7 +204,7 @@ export default function App() {
           />
         </div>
       ) : (
-        <WordCount count={correctWordCount} />
+        <WordCount onClose={newTest} count={correctWordCount} />
       )}
     </div>
   );
