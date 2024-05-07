@@ -9,14 +9,13 @@ export default function App() {
   const [trackKeyIndex, setTrackKeyIndex] = useState(1);
   const [errorIndexes, setErrorIndexes] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
-  const [sentence, setSentence] = useState(
-    "the curious cat quietly explores the mysterious garden at every flower and chasing butterflies in the warm sunlight   "
-  );
+  const [sentence, setSentence] = useState("");
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
   const [trackKeyCount, setTrackKeyCount] = useState([0]);
   const [wordErrorIndex, setWordErrorIndex] = useState([]);
   const [endOfTest, setEndOfTest] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const nextLetterIndex = typedKey.length;
   const currentLetter = sentence[nextLetterIndex];
@@ -27,15 +26,31 @@ export default function App() {
   const noErrorInWord = !wordErrorIndex.includes(allWordCount);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://random-word-api.vercel.app/api?words=100"
+        );
+        const data = await response.json();
+        setSentence(data.join(" "));
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     // Prevent further typing when the test ends.
-    if (!endOfTest) {
+    if (!endOfTest && !loading) {
       document.addEventListener("keydown", handleKeyPress);
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, [trackKeyIndex, endOfTest]);
+  }, [trackKeyIndex, endOfTest, loading]);
 
   const handleKeyPress = (event) => {
     // Handle Shift and Tab. Display message if caps lock.
@@ -174,7 +189,13 @@ export default function App() {
     setEndOfTest(true);
     // As the test is 30 seconds long, we want to ensure the word count is based on WPM.
     // If the last word is atleast half completed it counts as one word.
-    if (noErrorInWord && trackKeyIndex * 2 > currentWord.length) {
+
+    // FIX ME: refactor this conditional.
+    if (
+      noErrorInWord &&
+      currentLetter !== " " &&
+      trackKeyIndex * 2 > currentWord.length + 1
+    ) {
       setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount + 0.5);
     }
   };
@@ -184,7 +205,7 @@ export default function App() {
     setTrackKeyIndex(1);
     setErrorIndexes([]);
     setSpaceErrorIndexes([]);
-    setSentence("here is a new sentence to get started on ");
+    // setSentence("here is a new sentence to get started on ");
     setCorrectWordCount(0);
     setAllWordCount(0);
     setTrackKeyCount([0]);

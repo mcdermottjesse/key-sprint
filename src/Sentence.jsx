@@ -10,6 +10,7 @@ export default function Sentence({
         const isError = errorIndexes.includes(index);
         const isSpaceError = spaceErrorIndexes.includes(index);
         const typedCharacter = typedKey.charAt(index);
+
         return (
           <span
             key={index}
