@@ -172,6 +172,11 @@ export default function App() {
 
   const handleEndOfTest = () => {
     setEndOfTest(true);
+    // As the test is 30 seconds long, we want to ensure the word count is based on WPM.
+    // If the last word is atleast half completed it counts as one word.
+    if (noErrorInWord && trackKeyIndex * 2 > currentWord.length) {
+      setCorrectWordCount((prevCorrectWordCount) => prevCorrectWordCount + 0.5);
+    }
   };
 
   const newTest = () => {
