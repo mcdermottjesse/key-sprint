@@ -13,12 +13,22 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 65%;
-  padding: 0 3em;
+  height: 75%;
+  width: 75%;
+  margin: auto;
 }
 
 .main-text {
-  font-size: 3em;
+  font-size: 2.25em;
+  height: 3.5em;
+  overflow-y: auto;
+}
+
+.main-text::-webkit-scrollbar {
+  width: 12px;
+}
+.main-text::-webkit-scrollbar-thumb {
+  background-color: aliceblue; /* Change the color of the thumb (the draggable part of the scrollbar) */
 }
 
 .success-highlight {
@@ -110,4 +120,5 @@ body {
   font-size: 1.5em;
   color: aliceblue;
   text-align: left;
+  margin-bottom: 1em;
 }
