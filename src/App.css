@@ -20,12 +20,12 @@ body {
 
 .main-text {
   font-size: 2.25em;
-  height: 3.5em;
+  height: 5.25em;
   overflow-y: auto;
 }
 
 .main-text::-webkit-scrollbar {
-  width: 12px;
+  display: none;
 }
 .main-text::-webkit-scrollbar-thumb {
   background-color: aliceblue; /* Change the color of the thumb (the draggable part of the scrollbar) */
