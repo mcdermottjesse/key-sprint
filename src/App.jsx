@@ -28,7 +28,7 @@ export default function App() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://random-word-api.vercel.app/api?words=100&length=5"
+        "https://random-word-api.vercel.app/api?words=100&length=6"
       );
       const data = await response.json();
       setSentence(data.join(" "));
@@ -55,29 +55,41 @@ export default function App() {
 
   const handleKeyPress = (event) => {
     // Handle Shift and Tab. Display message if caps lock.
-    if (currentLetter === " " && event.key === " ") {
-      endOfWord();
-    }
-    if (event.key === currentLetter) {
-      // Counts the correctly typed words.
-      handleCorrectKey();
-    } else if (event.key === "Backspace") {
-      handleBackspace();
-    } else if (currentLetter === " " && event.key !== " ") {
-      // If a letter is typed instead of a space, display the letter.
-      handleSpaceError(event.key);
-    } else {
-      handleIncorrectLetter();
+
+    switch (event.key) {
+      case " ":
+        // Prevent spacebar from scrolling down.
+        event.preventDefault();
+        currentLetter === " " ? endOfWord() : handleIncorrectLetter();
+        break;
+      case currentLetter:
+        // Counts the correctly typed words.
+        handleCorrectKey();
+        break;
+      case "Backspace":
+        handleBackspace();
+        break;
+      default:
+        // If a letter is typed instead of a space, display the letter.
+        // Only display the letter once to help manage the autoscroll state.
+        if (currentLetter === " " && trackKeyIndex < currentWord.length + 2) {
+          handleSpaceError(event.key);
+        }
+        if (trackKeyIndex < currentWord.length + 1) {
+          handleIncorrectLetter();
+        }
+        break;
     }
   };
 
   const endOfWord = () => {
+    setTypedKey((prevTypedKey) => prevTypedKey + currentLetter);
     setAllWordCount((prevAllWordCount) => prevAllWordCount + 1);
     setTrackKeyCount((prevTrackKeyCount) => [
       ...prevTrackKeyCount,
       trackKeyIndex,
     ]);
-    setTrackKeyIndex(0);
+    setTrackKeyIndex(1);
   };
 
   const handleCorrectKey = () => {
@@ -190,8 +202,6 @@ export default function App() {
     setEndOfTest(true);
     // As the test is 30 seconds long, we want to ensure the word count is based on WPM.
     // If the last word is atleast half completed it counts as one word.
-
-    // FIX ME: refactor this conditional.
     if (
       noErrorInWord &&
       currentLetter !== " " &&
@@ -230,6 +240,7 @@ export default function App() {
             errorIndexes={errorIndexes}
             spaceErrorIndexes={spaceErrorIndexes}
             typedKey={typedKey}
+            allWordCount={allWordCount}
           />
         </div>
       ) : (
