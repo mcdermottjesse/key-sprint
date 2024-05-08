@@ -31,6 +31,36 @@ body {
   background-color: aliceblue; /* Change the color of the thumb (the draggable part of the scrollbar) */
 }
 
+.button-container {
+  position: relative;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  height: 8em;
+  width: 8em;
+}
+.main-button {
+  align-self: center;
+  background-color: pink;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 3em;
+}
+
+.main-hover-text {
+  display: none;
+}
+.main-button:hover + .main-hover-text {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  color: pink;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
 .success-highlight {
   color: pink;
 }
@@ -68,7 +98,7 @@ body {
   font-weight: bold;
 }
 
-.button {
+.secondary-button {
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -80,7 +110,7 @@ body {
   display: none;
 }
 
-.button:hover + .hover-text {
+.secondary-button:hover + .hover-text {
   display: inline;
   align-self: center;
   color: #6f88b3;
@@ -90,7 +120,7 @@ body {
   font-size: 1.25em;
 }
 
-.reset-icon {
+.restart-icon {
   width: 2.5em;
   height: 2.5em;
 }

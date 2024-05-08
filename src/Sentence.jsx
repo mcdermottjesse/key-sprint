@@ -8,6 +8,8 @@ export default function Sentence({
   allWordCount,
 }) {
   const containerRef = useRef(null);
+
+  // These can just be state.
   const wordCountForScroll = useRef(0);
   const prevAllWordCount = useRef(allWordCount);
 
