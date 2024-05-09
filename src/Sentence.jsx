@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 export default function Sentence({
   sentence,
@@ -9,27 +9,32 @@ export default function Sentence({
 }) {
   const containerRef = useRef(null);
 
-  // These can just be state.
-  const wordCountForScroll = useRef(0);
-  const prevAllWordCount = useRef(allWordCount);
+  const [wordCountForScroll, setWordCountForScroll] = useState(0);
+  const [prevAllWordCount, setPrevAllWordCount] = useState(allWordCount);
 
   // Handle auto scroll.
   useEffect(() => {
-    if (allWordCount > prevAllWordCount.current && allWordCount > 12) {
-      wordCountForScroll.current++;
+    if (allWordCount > prevAllWordCount && allWordCount > 12) {
+      setWordCountForScroll(
+        (prevWordCountForScroll) => prevWordCountForScroll + 1
+      );
     }
 
-    if (allWordCount < prevAllWordCount.current && allWordCount < 80) {
-      wordCountForScroll.current = Math.max(0, wordCountForScroll.current - 1);
+    if (allWordCount < prevAllWordCount && allWordCount < 80) {
+      setWordCountForScroll((prevWordCountForScroll) =>
+        Math.max(0, prevWordCountForScroll - 1)
+      );
+
       const container = containerRef.current;
       container.scrollTop -= 4;
     }
-    prevAllWordCount.current = allWordCount;
 
-    if (wordCountForScroll.current === 13) {
+    setPrevAllWordCount(allWordCount);
+
+    if (wordCountForScroll === 13) {
       const container = containerRef.current;
       container.scrollTop += allWordCount;
-      wordCountForScroll.current = 1;
+      setWordCountForScroll(1);
     }
   }, [allWordCount]);
 
