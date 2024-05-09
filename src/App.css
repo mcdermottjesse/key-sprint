@@ -57,7 +57,6 @@ body {
   position: absolute;
   bottom: 0;
   color: pink;
-  font-weight: bold;
   font-size: 1.25em;
 }
 
@@ -88,6 +87,7 @@ body {
   margin: auto;
   width: 25%;
   height: 25%;
+  border-radius: 1em;
 }
 
 .word-counter {
@@ -114,7 +114,6 @@ body {
   display: inline;
   align-self: center;
   color: #6f88b3;
-  font-weight: bold;
   position: absolute;
   bottom: 1.5em;
   font-size: 1.25em;
@@ -173,9 +172,29 @@ body {
   font-size: 1.5em;
   font-weight: bold;
 }
+
 .lock-icon {
   width: 20px;
   height: 20px;
   fill: #6f88b3;
   padding: 5px;
+}
+
+.restart-message {
+  display: flex;
+  justify-content: center;
+}
+
+.restart-hint {
+  color: pink;
+  margin-right: 5px;
+  font-size: 1.5em;
+}
+
+.restart-shortcut {
+  background-color: pink;
+  color: #6f88b3;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 2em;
 }
