@@ -233,7 +233,7 @@ export default function App() {
     <div className="page">
       <div className="logo">
         <img className="logo-icon" src="/keyboard.svg" alt="keyboard" />
-        <div className="logo-text">Key Sprint</div>
+        <div className="logo-text">key sprint</div>
       </div>
       {!loading &&
         (!endOfTest ? (
@@ -258,6 +258,10 @@ export default function App() {
                 </button>
                 <div className="main-hover-text">restart test</div>
               </div>
+            </div>
+            <div className="restart-message">
+              <div className="restart-hint">quick restart:</div>
+              <div className="restart-shortcut">tab + enter</div>
             </div>
           </>
         ) : (
