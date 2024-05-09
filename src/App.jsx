@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import CapsLock from "./CapsLock";
+import Sentence from "./Sentence";
 import Timer from "./Timer";
 import WordCount from "./WordCount";
-import Sentence from "./Sentence";
 
 export default function App() {
   const [typedKey, setTypedKey] = useState("");
@@ -54,8 +55,6 @@ export default function App() {
   }, [trackKeyIndex, endOfTest, loading]);
 
   const handleKeyPress = (event) => {
-    // Handle Shift and Tab. Display message if caps lock.
-
     switch (event.key) {
       case " ":
         // Prevent spacebar from scrolling down.
@@ -65,20 +64,24 @@ export default function App() {
       case currentLetter:
         // Counts the correctly typed words.
         handleCorrectKey();
+
         break;
       case "Backspace":
         handleBackspace();
         break;
       default:
-        // If a letter is typed instead of a space, display the letter.
-        // Only display the letter once to help manage the autoscroll state.
-        if (currentLetter === " " && trackKeyIndex < currentWord.length + 2) {
-          handleSpaceError(event.key);
+        const isLetter = /^[a-z]$/;
+        if (isLetter.test(event.key)) {
+          // If a letter is typed instead of a space, display the letter.
+          // Only display the letter once to help manage the autoscroll state.
+          if (currentLetter === " " && trackKeyIndex < currentWord.length + 2) {
+            handleSpaceError(event.key);
+          }
+          if (trackKeyIndex < currentWord.length + 1) {
+            handleIncorrectLetter();
+          }
+          break;
         }
-        if (trackKeyIndex < currentWord.length + 1) {
-          handleIncorrectLetter();
-        }
-        break;
     }
   };
 
@@ -234,26 +237,29 @@ export default function App() {
       </div>
       {!loading &&
         (!endOfTest ? (
-          <div className="text-container">
-            <Timer handleEndOfTest={handleEndOfTest} />
-            <Sentence
-              sentence={sentence}
-              errorIndexes={errorIndexes}
-              spaceErrorIndexes={spaceErrorIndexes}
-              typedKey={typedKey}
-              allWordCount={allWordCount}
-            />
-            <div className="button-container">
-              <button className="main-button" onClick={newTest}>
-                <img
-                  className="restart-icon"
-                  src="/arrows-rotate.svg"
-                  alt="reset"
-                />
-              </button>
-              <div className="main-hover-text">restart test</div>
+          <>
+            <CapsLock />
+            <div className="text-container">
+              <Timer handleEndOfTest={handleEndOfTest} />
+              <Sentence
+                sentence={sentence}
+                errorIndexes={errorIndexes}
+                spaceErrorIndexes={spaceErrorIndexes}
+                typedKey={typedKey}
+                allWordCount={allWordCount}
+              />
+              <div className="button-container">
+                <button className="main-button" onClick={newTest}>
+                  <img
+                    className="restart-icon"
+                    src="/arrows-rotate.svg"
+                    alt="reset"
+                  />
+                </button>
+                <div className="main-hover-text">restart test</div>
+              </div>
             </div>
-          </div>
+          </>
         ) : (
           <WordCount onClose={newTest} count={correctWordCount} />
         ))}
