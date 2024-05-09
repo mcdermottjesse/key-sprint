@@ -248,6 +248,10 @@ export default function App() {
                 typedKey={typedKey}
                 allWordCount={allWordCount}
               />
+              <div
+                className="cursor"
+                style={{ left: `${nextLetterIndex * 10}px` }}
+              ></div>
               <div className="button-container">
                 <button className="main-button" onClick={newTest}>
                   <img
