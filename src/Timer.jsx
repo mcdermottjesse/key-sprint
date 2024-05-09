@@ -29,8 +29,11 @@ export default function Timer({ handleEndOfTest }) {
     };
   }, [countDown, startTimer]);
 
-  const handleFirstKeyPress = () => {
-    setStartTimer(true);
+  const handleFirstKeyPress = (event) => {
+    const isLetter = /^[a-z]$/;
+    if (isLetter.test(event.key)) {
+      setStartTimer(true);
+    }
   };
 
   return <div className="timer">{countDown}</div>;
