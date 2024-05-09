@@ -28,7 +28,7 @@ export default function App() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://random-word-api.vercel.app/api?words=100&length=6"
+        "https://random-word-api.vercel.app/api?words=100&length=5"
       );
       const data = await response.json();
       setSentence(data.join(" "));
@@ -232,20 +232,31 @@ export default function App() {
         <img className="logo-icon" src="/keyboard.svg" alt="keyboard" />
         <div className="logo-text">Key Sprint</div>
       </div>
-      {!endOfTest && !loading ? (
-        <div className="text-container">
-          <Timer handleEndOfTest={handleEndOfTest} />
-          <Sentence
-            sentence={sentence}
-            errorIndexes={errorIndexes}
-            spaceErrorIndexes={spaceErrorIndexes}
-            typedKey={typedKey}
-            allWordCount={allWordCount}
-          />
-        </div>
-      ) : (
-        <WordCount onClose={newTest} count={correctWordCount} />
-      )}
+      {!loading &&
+        (!endOfTest ? (
+          <div className="text-container">
+            <Timer handleEndOfTest={handleEndOfTest} />
+            <Sentence
+              sentence={sentence}
+              errorIndexes={errorIndexes}
+              spaceErrorIndexes={spaceErrorIndexes}
+              typedKey={typedKey}
+              allWordCount={allWordCount}
+            />
+            <div className="button-container">
+              <button className="main-button" onClick={newTest}>
+                <img
+                  className="restart-icon"
+                  src="/arrows-rotate.svg"
+                  alt="reset"
+                />
+              </button>
+              <div className="main-hover-text">restart test</div>
+            </div>
+          </div>
+        ) : (
+          <WordCount onClose={newTest} count={correctWordCount} />
+        ))}
     </div>
   );
 }
