@@ -5,7 +5,7 @@ body {
 
 .page {
   background-color: #6f88b3;
-  position: relative;
+  /* position: relative; */
   height: 100vh;
 }
 
@@ -36,17 +36,20 @@ body {
   align-self: center;
   display: flex;
   justify-content: center;
-  margin-top: 1em;
-  height: 8em;
+  margin-top: 1.5em;
   width: 8em;
 }
 .main-button {
-  align-self: center;
   background-color: pink;
   padding: 8px 10px 5px;
   cursor: pointer;
   border: none;
   border-radius: 2em;
+}
+
+.main-restart-icon {
+  width: 2em;
+  height: 2em;
 }
 
 .main-hover-text {
@@ -55,7 +58,7 @@ body {
 .main-button:hover + .main-hover-text {
   display: flex;
   position: absolute;
-  bottom: 0;
+  top: 3em;
   color: pink;
   font-size: 1.25em;
 }
@@ -119,26 +122,24 @@ body {
   font-size: 1.25em;
 }
 
-.restart-icon {
+.secondary-restart-icon {
   width: 2.5em;
   height: 2.5em;
 }
 
 .logo {
   display: inline-flex;
+  padding-top: 2em;
   padding-left: 1em;
   color: pink;
 }
 
 .logo-icon {
-  padding-top: 2em;
   margin-right: 1em;
   width: 6em;
-  height: 6em;
 }
 
 .logo-text {
-  padding-top: 1em;
   font-family: "Orbitron";
   font-size: 3em;
   font-weight: bold;
@@ -197,4 +198,9 @@ body {
   font-weight: bold;
   padding: 5px;
   border-radius: 2em;
+}
+
+.cursor {
+  background-color: pink;
+  color: aliceblue;
 }
