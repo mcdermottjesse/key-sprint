@@ -5,7 +5,7 @@ body {
 
 .page {
   background-color: #6f88b3;
-  /* position: relative; */
+  position: relative;
   height: 100vh;
 }
 
@@ -44,7 +44,7 @@ body {
   padding: 8px 10px 5px;
   cursor: pointer;
   border: none;
-  border-radius: 2em;
+  border-radius: 1.25em;
 }
 
 .main-restart-icon {
@@ -64,14 +64,17 @@ body {
 }
 
 .success-highlight {
+  padding: 0 0.5px;
   color: pink;
 }
 
 .error-highlight {
+  padding: 0 0.5px;
   color: yellow;
 }
 
 .neutral-highlight {
+  padding: 0 0.5px;
   color: aliceblue;
 }
 
