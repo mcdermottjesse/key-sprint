@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 
-export default function Sentence({
-  sentence,
+export default function Words({
+  words,
   errorIndexes,
   spaceErrorIndexes,
   typedKey,
@@ -43,7 +43,7 @@ export default function Sentence({
 
   return (
     <div className="main-text" ref={containerRef}>
-      {sentence.split("").map((letter, index) => {
+      {words.split("").map((letter, index) => {
         const isError = errorIndexes.includes(index);
         const isSpaceError = spaceErrorIndexes.includes(index);
         const typedCharacter = typedKey.charAt(index);
