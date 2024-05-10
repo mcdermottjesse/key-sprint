@@ -16,7 +16,7 @@ export default function WordCount({ count, onClose }) {
         <button className="secondary-button" onClick={handlePopUp}>
           <img
             className="secondary-restart-icon"
-            src="/arrows-rotate.svg"
+            src="/key-sprint/arrows-rotate.svg"
             alt="restart-icon"
           />
         </button>

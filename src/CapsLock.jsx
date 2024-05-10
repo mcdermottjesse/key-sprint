@@ -19,7 +19,11 @@ export default function CapsLock() {
   return (
     showCapsMessage && (
       <div className="caps-message">
-        <img className="lock-icon" src="/lock-solid.svg" alt="lock-icon" />
+        <img
+          className="lock-icon"
+          src="/key-sprint/lock-solid.svg"
+          alt="lock-icon"
+        />
         Caps Lock
       </div>
     )
