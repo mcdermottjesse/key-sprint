@@ -207,3 +207,8 @@ body {
   background-color: pink;
   color: aliceblue;
 }
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/key-sprint/fonts/Orbitron-Regular.ttf") format("truetype");
+}
