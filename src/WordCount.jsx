@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 export default function WordCount({ count, onClose }) {
   const [close, setClose] = useState(false);
 

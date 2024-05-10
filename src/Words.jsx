@@ -37,7 +37,7 @@ export default function Words({
       container.scrollTop += allWordCount;
       setWordCountForScroll(1);
     }
-  }, [allWordCount]);
+  }, [allWordCount, prevAllWordCount, wordCountForScroll]);
 
   const cursorIndex = typedKey.replace(/\s/g, " ").length;
 
