@@ -256,7 +256,11 @@ export default function App() {
   return (
     <div className="page">
       <div className="logo">
-        <img className="logo-icon" src="/keyboard.svg" alt="keyboard" />
+        <img
+          className="logo-icon"
+          src="/key-sprint/keyboard.svg"
+          alt="keyboard"
+        />
         <div className="logo-text">key sprint</div>
       </div>
       {!loading &&
@@ -276,7 +280,7 @@ export default function App() {
                 <button className="main-button" onClick={newTest}>
                   <img
                     className="main-restart-icon"
-                    src="/arrows-rotate.svg"
+                    src="/key-sprint/arrows-rotate.svg"
                     alt="reset"
                   />
                 </button>
