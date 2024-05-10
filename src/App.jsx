@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import CapsLock from "./CapsLock";
-import Sentence from "./Sentence";
+import Words from "./Words";
 import Timer from "./Timer";
 import WordCount from "./WordCount";
 
@@ -10,8 +10,8 @@ export default function App() {
   const [trackKeyIndex, setTrackKeyIndex] = useState(1);
   const [errorIndexes, setErrorIndexes] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
-  // This is not a sentence. Rename this.
-  const [sentence, setSentence] = useState("");
+
+  const [words, setWords] = useState("");
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
   const [trackKeyCount, setTrackKeyCount] = useState([0]);
@@ -20,12 +20,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   const nextLetterIndex = typedKey.length;
-  const currentLetter = sentence[nextLetterIndex];
+  const currentLetter = words[nextLetterIndex];
   const lastErrorIndex = errorIndexes[errorIndexes.length - 1];
-  // This is not a sentence. Rename this.
-  const sentenceArray = sentence.split(" ").filter(Boolean); // Removes empty strings from array.
-  const previousLetter = sentence[nextLetterIndex - 1];
-  const currentWord = sentenceArray[allWordCount];
+
+  const wordsArray = words.split(" ").filter(Boolean); // Removes empty strings from array.
+  const previousLetter = words[nextLetterIndex - 1];
+  const currentWord = wordsArray[allWordCount];
   const noErrorInWord = !wordErrorIndex.includes(allWordCount);
 
   const fetchWordData = async () => {
@@ -43,7 +43,7 @@ export default function App() {
 
       const shuffleData = shuffleWordData(combinedData);
 
-      setSentence(shuffleData.join(" "));
+      setWords(shuffleData.join(" "));
       setLoading(false);
     } catch (error) {
       // Add error pop up.
@@ -150,10 +150,10 @@ export default function App() {
       );
 
       if (previousLetter === " ") {
-        setSentence(
-          (prevSentence) =>
-            prevSentence.slice(0, nextLetterIndex - 1) +
-            prevSentence.slice(nextLetterIndex)
+        setWords(
+          (prevWords) =>
+            prevWords.slice(0, nextLetterIndex - 1) +
+            prevWords.slice(nextLetterIndex)
         );
 
         const fliterWordErrorIndex = wordErrorIndex.filter(
@@ -183,12 +183,10 @@ export default function App() {
   const handleSpaceError = (incorrectTypedKey) => {
     setTypedKey((prevTypedKey) => prevTypedKey + incorrectTypedKey);
 
-    const updatedSentence =
-      sentence.slice(0, nextLetterIndex) +
-      " " +
-      sentence.slice(nextLetterIndex);
+    const updatedWords =
+      words.slice(0, nextLetterIndex) + " " + words.slice(nextLetterIndex);
 
-    setSentence(updatedSentence);
+    setWords(updatedWords);
 
     setSpaceErrorIndexes((prevErrorIndexes) => [
       ...prevErrorIndexes,
@@ -267,8 +265,8 @@ export default function App() {
             <CapsLock />
             <div className="text-container">
               <Timer handleEndOfTest={handleEndOfTest} />
-              <Sentence
-                sentence={sentence}
+              <Words
+                words={words}
                 errorIndexes={errorIndexes}
                 spaceErrorIndexes={spaceErrorIndexes}
                 typedKey={typedKey}
