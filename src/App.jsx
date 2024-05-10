@@ -10,6 +10,7 @@ export default function App() {
   const [trackKeyIndex, setTrackKeyIndex] = useState(1);
   const [errorIndexes, setErrorIndexes] = useState([]);
   const [spaceErrorIndexes, setSpaceErrorIndexes] = useState([]);
+  // This is not a sentence. Rename this.
   const [sentence, setSentence] = useState("");
   const [correctWordCount, setCorrectWordCount] = useState(0);
   const [allWordCount, setAllWordCount] = useState(0);
@@ -21,26 +22,51 @@ export default function App() {
   const nextLetterIndex = typedKey.length;
   const currentLetter = sentence[nextLetterIndex];
   const lastErrorIndex = errorIndexes[errorIndexes.length - 1];
+  // This is not a sentence. Rename this.
   const sentenceArray = sentence.split(" ").filter(Boolean); // Removes empty strings from array.
   const previousLetter = sentence[nextLetterIndex - 1];
   const currentWord = sentenceArray[allWordCount];
   const noErrorInWord = !wordErrorIndex.includes(allWordCount);
 
-  const fetchData = async () => {
+  const fetchWordData = async () => {
+    const randomWordApi =
+      "https://random-word-api.vercel.app/api?words=50&length=";
+
     try {
-      const response = await fetch(
-        "https://random-word-api.vercel.app/api?words=100&length=5"
-      );
-      const data = await response.json();
-      setSentence(data.join(" "));
+      const responseFourLetters = await fetch(`${randomWordApi}4`);
+      const dataFourLetters = await responseFourLetters.json();
+
+      const responseFiveLetters = await fetch(`${randomWordApi}5`);
+      const dataFiveLetters = await responseFiveLetters.json();
+
+      const combinedData = [...dataFourLetters, ...dataFiveLetters];
+
+      const shuffleData = shuffleWordData(combinedData);
+
+      setSentence(shuffleData.join(" "));
       setLoading(false);
     } catch (error) {
+      // Add error pop up.
       console.log(error);
     }
   };
 
+  // Fisher-Yates algorithm to shuffle data in an array.
+  // Iterate from end of the array to the beginning of the array.
+  const shuffleWordData = (wordArray) => {
+    for (let i = wordArray.length - 1; i > 0; i--) {
+      // We add 1 here so we can get all indexes.
+      // If we were to include i >=0 in the for loop and not add 1 here
+      // then it will multiply by 0, which doesn't make sense.
+      const j = Math.floor(Math.random() * i + 1);
+      // Destructing assignment. This swaps the index values.
+      [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
+    }
+    return wordArray;
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchWordData();
   }, []);
 
   useEffect(() => {
@@ -221,7 +247,7 @@ export default function App() {
     setTrackKeyIndex(1);
     setErrorIndexes([]);
     setSpaceErrorIndexes([]);
-    fetchData();
+    fetchWordData();
     setCorrectWordCount(0);
     setAllWordCount(0);
     setTrackKeyCount([0]);
