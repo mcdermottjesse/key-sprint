@@ -14,7 +14,7 @@ export default function WordCount({ count, onClose }) {
         <div className="word-counter">{count * 2} WPM</div>
         <button className="secondary-button" onClick={handlePopUp}>
           <img
-            className="restart-icon"
+            className="secondary-restart-icon"
             src="/arrows-rotate.svg"
             alt="restart-icon"
           />

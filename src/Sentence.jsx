@@ -13,6 +13,7 @@ export default function Sentence({
   const [prevAllWordCount, setPrevAllWordCount] = useState(allWordCount);
 
   // Handle auto scroll.
+  // Would be better to use the width instead to handle this.
   useEffect(() => {
     if (allWordCount > prevAllWordCount && allWordCount > 12) {
       setWordCountForScroll(
@@ -38,6 +39,8 @@ export default function Sentence({
     }
   }, [allWordCount]);
 
+  const cursorIndex = typedKey.replace(/\s/g, " ").length;
+
   return (
     <div className="main-text" ref={containerRef}>
       {sentence.split("").map((letter, index) => {
@@ -45,17 +48,20 @@ export default function Sentence({
         const isSpaceError = spaceErrorIndexes.includes(index);
         const typedCharacter = typedKey.charAt(index);
 
+        const isCursor = index === cursorIndex;
+
+        let className = "neutral-highlight";
+
+        if (isCursor) {
+          className = "cursor";
+        }
+
+        if (index < typedKey.length) {
+          className = isError ? "error-highlight" : "success-highlight";
+        }
+
         return (
-          <span
-            key={index}
-            className={
-              index < typedKey.length
-                ? isError
-                  ? "error-highlight"
-                  : "success-highlight"
-                : "neutral-highlight"
-            }
-          >
+          <span key={index} className={className}>
             {(isSpaceError && typedCharacter) || letter}
           </span>
         );
