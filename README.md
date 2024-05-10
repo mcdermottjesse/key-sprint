@@ -1,15 +1,10 @@
 # Key Sprint
 
-WIP Typing speed test.
+Typing speed test application built using React + Vite. It allows users to test their typing speed and accuracy by typing a given passage within a specified time limit.
 
-# React + Vite
+## Install dependencies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+`yarn install`
 
 ## Start Server
 
