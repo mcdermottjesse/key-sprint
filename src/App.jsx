@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import CapsLock from "./CapsLock";
 import Words from "./Words";
@@ -81,6 +81,7 @@ export default function App() {
   }, [trackKeyIndex, endOfTest, loading]);
 
   const handleKeyPress = (event) => {
+    const isLetter = /^[a-z]$/;
     switch (event.key) {
       case " ":
         // Prevent spacebar from scrolling down.
@@ -96,7 +97,6 @@ export default function App() {
         handleBackspace();
         break;
       default:
-        const isLetter = /^[a-z]$/;
         if (isLetter.test(event.key)) {
           // If a letter is typed instead of a space, display the letter.
           // Only display the letter once to help manage the autoscroll state.
