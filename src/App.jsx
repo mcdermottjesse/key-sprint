@@ -250,6 +250,13 @@ export default function App() {
 
   const handleEndOfTest = () => {
     setEndOfTest(true);
+
+    // As the test is 30 seconds long if a word starts being typed it gets counted
+    // as an extra word to ensure correct typing accuracy.
+    if (trackKeyIndex > 1 && trackKeyIndex <= currentWord.length + 2) {
+      setAllWordCount((prevallWordCount) => prevallWordCount + 1);
+    }
+
     // As the test is 30 seconds long, we want to ensure the word count is based on WPM.
     // If the last word is atleast half completed it counts as one word.
     if (
@@ -316,7 +323,11 @@ export default function App() {
             </div>
           </>
         ) : (
-          <WordCount onClose={newTest} count={correctWordCount} />
+          <WordCount
+            onClose={newTest}
+            correctWordCount={correctWordCount}
+            allWordCount={allWordCount}
+          />
         ))}
     </div>
   );
