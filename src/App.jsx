@@ -33,13 +33,24 @@ export default function App() {
       "https://random-word-api.vercel.app/api?words=50&length=";
 
     try {
+      const responseThreeLetters = await fetch(`${randomWordApi}3`);
+      const dataThreeLetters = await responseThreeLetters.json();
+
       const responseFourLetters = await fetch(`${randomWordApi}4`);
       const dataFourLetters = await responseFourLetters.json();
 
       const responseFiveLetters = await fetch(`${randomWordApi}5`);
       const dataFiveLetters = await responseFiveLetters.json();
 
-      const combinedData = [...dataFourLetters, ...dataFiveLetters];
+      const responseSixLetters = await fetch(`${randomWordApi}6`);
+      const dataSixLetters = await responseSixLetters.json();
+
+      const combinedData = [
+        ...dataThreeLetters,
+        ...dataFourLetters,
+        ...dataFiveLetters,
+        ...dataSixLetters,
+      ];
 
       const shuffleData = shuffleWordData(combinedData);
 
