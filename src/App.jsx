@@ -33,17 +33,29 @@ export default function App() {
       "https://random-word-api.vercel.app/api?words=50&length=";
 
     try {
-      const responseThreeLetters = await fetch(`${randomWordApi}3`);
-      const dataThreeLetters = await responseThreeLetters.json();
+      const [
+        responseThreeLetters,
+        responseFourLetters,
+        responseFiveLetters,
+        responseSixLetters,
+      ] = await Promise.all([
+        fetch(`${randomWordApi}3`),
+        fetch(`${randomWordApi}4`),
+        fetch(`${randomWordApi}5`),
+        fetch(`${randomWordApi}6`),
+      ]);
 
-      const responseFourLetters = await fetch(`${randomWordApi}4`);
-      const dataFourLetters = await responseFourLetters.json();
-
-      const responseFiveLetters = await fetch(`${randomWordApi}5`);
-      const dataFiveLetters = await responseFiveLetters.json();
-
-      const responseSixLetters = await fetch(`${randomWordApi}6`);
-      const dataSixLetters = await responseSixLetters.json();
+      const [
+        dataThreeLetters,
+        dataFourLetters,
+        dataFiveLetters,
+        dataSixLetters,
+      ] = await Promise.all([
+        responseThreeLetters.json(),
+        responseFourLetters.json(),
+        responseFiveLetters.json(),
+        responseSixLetters.json(),
+      ]);
 
       const combinedData = [
         ...dataThreeLetters,
@@ -66,10 +78,10 @@ export default function App() {
   // Iterate from end of the array to the beginning of the array.
   const shuffleWordData = (wordArray) => {
     for (let i = wordArray.length - 1; i > 0; i--) {
-      // We add 1 here so we can get all indexes.
-      // If we were to include i >=0 in the for loop and not add 1 here
-      // then it will multiply by 0, which doesn't make sense.
-      const j = Math.floor(Math.random() * i + 1);
+      // If we were to include i >=0 in the for loop
+      // then it will multiply by 0, which doesn't make sense
+      // and causes an uneccessary iteration.
+      const j = Math.floor(Math.random() * i);
       // Destructing assignment. This swaps the index values.
       [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
     }
