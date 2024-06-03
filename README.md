@@ -17,3 +17,7 @@ Typing speed test application built using React + Vite. It allows users to test 
 ## Host
 
 `http://localhost:5173/`
+
+## Production
+
+https://mcdermottjesse.github.io/key-sprint/
